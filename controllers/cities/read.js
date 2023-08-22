@@ -1,6 +1,6 @@
 import City from '../../models/City.js'
 
-export default async (req,res) => {
+export default async (req,res,next) => {
     try {
         console.log(req.query);   // QUERY ES UN OBJETO  CON TODAS LAS CONSULTAS/IGUALDADES A BUSCAR EN LA BASE DE DATOS 
         //let objetoDeBusqueda = {admin_id:'64dba035dd5e7cf46a232173' }
@@ -27,16 +27,23 @@ export default async (req,res) => {
             .populate('admin_id','photo name mail')
             .sort(objetoDeOrdenamiento)
         //let allCities = await City.find().select('country  city photo smalldescription admin_id').populate('admin_id','photo name mail -_id')
-        return res.status(200).json({
-            success: true,
-            message: 'cities found',
-            response: allCities
-        })
-    } catch (error) {
-        return res.status(400).json({
+       //try maneja los errores del lado del cliente o el exito
+        if (allCities.length>0) {
+            return res.status(200).json({
+                success: true,
+                message: 'cities found',
+                response: allCities
+            })
+       } else {
+        return res.status(404).json({
             success: false,
             message: 'not found',
             response: null
         })
+       }
+    //maneja los errores del lado del servidor(nuestros)
+    } catch (error) {
+        //no deja pasar hacia el controllador y activa la funcion error handler(de la api)
+        next(error)
     }
 }

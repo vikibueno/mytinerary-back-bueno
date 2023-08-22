@@ -14,6 +14,9 @@ import logger from 'morgan'                     //para registrar cada una de las
 //var indexRouter = require('./routes/index');  //solo vamos a configurar las rutas del enrutador de back principial
 import indexRouter from './routes/index.js'     //este enrutador va a llamar a TODOS los otros recursos(cities,itineraries)
 
+import errorHandler from './middlewares/errorHandler.js';
+import notFoundHandler from './middlewares/notFoundHandler.js';
+
 let app = express();                            //ejecutando el modulo de express:CREO UNA APP DE BACKEND(SERVIDOR)
 
 //VIEW ENGINE SETUP
@@ -33,19 +36,11 @@ app.use(express.static(path.join(__dirname, 'public')));  //obligo al servidor a
 app.use('/api', indexRouter);        //obligo al servidor a que se las rutas del erutador principal con "/api"
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+//manejo de endpoints que no existan
+app.use(notFoundHandler);
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+//error handler (manejadora de errores)
+//esta funcion sirve para no repetir codigo y que cada vez que salte el catch salte esta funcion
+app.use(errorHandler);
 
 export default app
