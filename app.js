@@ -17,6 +17,9 @@ import indexRouter from './routes/index.js'     //este enrutador va a llamar a T
 import errorHandler from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
 
+import cors from 'cors'                         //modulo para desbloquear las politicas de CORS (origenes cruzados server del front 5173 y del back 8080)
+
+
 let app = express();                            //ejecutando el modulo de express:CREO UNA APP DE BACKEND(SERVIDOR)
 
 //VIEW ENGINE SETUP
@@ -29,7 +32,7 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));                                   //obligo al servidor a registrar una petición con el módulo de logger
 app.use(express.json());                                  //obligo al servidor a manipular/leer json
 app.use(express.urlencoded({ extended: false }));         //obligo al servidor a leer params/queries
-//app.use(cookieParser());
+app.use(cors());                                          //obligo al servidor a desbloquear la politica de cors
 app.use(express.static(path.join(__dirname, 'public')));  //obligo al servidor a acceder los archivos estáticos de la carpeta public
 
 //ROUTER
