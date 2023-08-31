@@ -20,7 +20,7 @@ let router = express.Router();
   //BODY: objeto que generalmente se envia a traves de formularios
   //PARAMS (parametros).: suelen ser estatico como el id de una ciudad a buscar por ejemplo
   //QUERIES (consultas): son opcionales y nos indican algunas consultas/filtros/modos de ver la info de pagina, etc
-  router.post('/', create)
+  router.post('/signup', create)
 
   //READ
   router.get('/', read)
