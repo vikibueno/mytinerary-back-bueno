@@ -10,9 +10,9 @@ export default async (req,res,next) => {
                 response: deletedCity._id
             })
         } else {
-            return res.status(400).json({
+            return res.status(404).json({
                 success: false,
-                message: 'not found',
+                message: 'city not found',
                 response: null
             })
         }
