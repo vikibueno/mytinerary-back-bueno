@@ -17,7 +17,7 @@ export default async (req,res,next)=> {
                 select: "city photo admin_id",
                 populate: {
                     path: "admin_id",
-                    select: "name photo"
+                    select: "name lastName photo"
                 }
             })
             return res.status(200).json({

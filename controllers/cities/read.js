@@ -11,7 +11,7 @@ export default async (req,res,next) => {
             objetoDeBusqueda.admin_id = req.query.admin_id
         }
         if (req.query.city) {
-            objetoDeBusqueda.city = new RegExp(req.query.city,'i')
+            objetoDeBusqueda.city = new RegExp('^'+req.query.city,'i')
             //new RegExp(req.query.title,'i')
         }
         if (req.query.sort) {
