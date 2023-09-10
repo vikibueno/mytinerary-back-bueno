@@ -1,7 +1,10 @@
 import { Router } from "express";
+import passport from "../middlewares/passport.js";
 
 import register from "../controllers/auth/register.js";
 import signin from "../controllers/auth/signin.js";
+import signinToken from "../controllers/auth/signinToken.js";
+import signout from "../controllers/auth/signout.js";
 
 import isValidToken from "../middlewares/isValidToken.js";
 import isPassOk from "../middlewares/isPassOk.js";
@@ -22,5 +25,10 @@ let authRouter = Router()
     //hashear la contraseña(proteger)
 authRouter.post('/register',validator(registerSchema),existsUser,isValidPass,register)
 authRouter.post('/signin',validator(signinSchema),notExistsUser,isPassOk,isValidToken,signin)
+
+//middleware para destokenizar el token( debe recibir un token y convertirlo en los datos del usuario)
+//middleware para generar un nuevo token (isValidToken)
+authRouter.post('/signinToken',passport.authenticate('jwt',{session:false}),isValidToken,signinToken)
+authRouter.post('/signout',passport.authenticate('jwt',{session:false}),signout)
 
 export default authRouter
