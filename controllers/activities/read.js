@@ -6,6 +6,9 @@ export default async (req,res,next)=> {
         if (req.query.itinerary_id) {  
             queries.itinerary_id = req.query.itinerary_id
         }
+        if (req.query.itinerary_name) {  
+            queries.itinerary_name = req.query.itinerary_name
+        }
         let allActivities = await Activity.find(queries)
             return res.status(200).json({
                 success: true,
@@ -14,6 +17,7 @@ export default async (req,res,next)=> {
         })
         
     } catch (error) {
+        console.log(error);
         next(error)
     }
 }

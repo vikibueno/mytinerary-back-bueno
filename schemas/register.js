@@ -7,7 +7,7 @@ let registerSchema = joi.object({
         "any.required" : "name is required", //para cuando NO se envia el dato
         "string.empty" : "name is required"  //para cuand se envia VACIO
     }),
-    mail: joi.string().required(),
+    mail: joi.string().required().email(),
     password: joi.string().required(),
     country: joi.string().required(),
     lastName: joi.string().min(3).max(20).messages({
