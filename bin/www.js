@@ -1,8 +1,8 @@
 //IMPORTS
-import app from '../app.js'            //configuración del servidor
+import app from '../app.js'         //configuración del servidor
 import debug from 'debug'           //modulo de debugeo
 import http from 'http'             //modulo para crear servidores HTTP
-
+import { connect } from 'mongoose'   //metodo para conectarme a la db
 //PORT
 //process.env guarda las configuraciones de las variables de entorno
 //variables muy delicadas que son necesarias proteger
@@ -12,7 +12,14 @@ app.set('port', port);
 
 //START SERVING
 var server = http.createServer(app);      //creo un servidor normalizado con HTTP
-let ready = ()=> console.log('server ready on port '+port)
+let ready = ()=> {
+  console.log('server ready on port '+port)
+  //connect('link de conexion de mongo')
+  connect(process.env.LINK_DB)//el metodo connect devuelve una promesa: trabajar con then-cath o async-await
+    .then(()=>console.log('database conected'))
+    .catch(err=>console.log(err))
+}
+
 server.listen(port,ready);                      //con el metodo listen ESCUCHO para que empiece a funcionar(a levantarse)
 
 server.on('error', onError);
